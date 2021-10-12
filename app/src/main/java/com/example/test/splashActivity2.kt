@@ -4,13 +4,17 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.daimajia.androidanimations.library.Techniques
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.viksaa.sssplash.lib.activity.AwesomeSplash
 import com.viksaa.sssplash.lib.cnst.Flags
 import com.viksaa.sssplash.lib.model.ConfigSplash
 
 class splashActivity2 : AwesomeSplash() {
+    private var mInterstitialAd: InterstitialAd? = null
     override fun initSplash(configSplash: ConfigSplash?) {
-
+        MobileAds.initialize(this) {}
         //Customize Circular Reveal
         configSplash?.backgroundColor = R.color.green; //any color you want form colors.xml
         configSplash?.animCircularRevealDuration = 3000; //int ms
@@ -29,15 +33,43 @@ class splashActivity2 : AwesomeSplash() {
         configSplash?.titleTextSize = 30f; //float value
         configSplash?.animTitleDuration = 1500;
         configSplash?.animTitleTechnique = Techniques.Flash;
+        var adRequest = AdRequest.Builder().build()
+
+        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                mInterstitialAd = null
+            }
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                mInterstitialAd = interstitialAd
+            }
+        })
 
     }
 
     override fun animationsFinished() {
-      open()
+        if (mInterstitialAd != null) {
+            mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                   open()
+                }
+
+                override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                   open()
+                }
+
+                override fun onAdShowedFullScreenContent() {
+                    mInterstitialAd = null
+                }
+            }
+
+        } else {
+           open()
+        }
+        mInterstitialAd?.show(this)
     }
     fun open(){
 
-        val i = Intent(this,menuActivity2::class.java)
+        val i = Intent(this,MainActivity::class.java)
         startActivity(i)
         finish()
     }

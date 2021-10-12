@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<item
-   android:title="france"
-    android:id="@+id/setting"
-    android:orderInCategory="300"
-    />
-<item
-    android:id="@+id/england"
-    android:title="england"
-    />
-    <item
-        android:id="@+id/germany"
-        android:title="germany"
-        android:orderInCategory="400"
-        />
-    <item
-        android:id="@+id/egypt"
-        android:title="egypt"></item>
+    <group
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:showIn="navigation_drawer">
+        <item
+
+            android:id="@+id/fance"
+            android:icon="@drawable/france"
+            android:orderInCategory="300"
+            android:title="france" />
+        <item
+
+            android:id="@+id/spain"
+            android:icon="@drawable/spain"
+            android:title="spain" />
+        <item
+
+            android:id="@+id/germany"
+            android:icon="@drawable/germany"
+            android:orderInCategory="400"
+            android:title="germany" />
+        <item
+
+            android:id="@+id/egypt"
+            android:icon="@drawable/images"
+            android:title="egypt"></item>
+
+        <item
+
+            android:icon="@drawable/italy"
+            android:id="@+id/italia"
+            android:title="italy"/>
+    </group>
 </menu>
